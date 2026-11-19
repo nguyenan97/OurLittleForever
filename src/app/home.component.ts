@@ -30,7 +30,7 @@ import { story } from "./content";
           <p>Những ngày có em, anh cất ở đây.</p>
           <div class="hero-actions">
             <a class="button cream" routerLink="/chuyen-minh"
-              >Chuyện mình <span aria-hidden="true">♡</span></a
+              >Xem kỷ niệm <span aria-hidden="true">♡</span></a
             ><a class="light-link" routerLink="/loi-thuong">Đọc thư</a>
           </div>
           <div class="hero-footnote">

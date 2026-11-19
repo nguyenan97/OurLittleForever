@@ -26,7 +26,7 @@ import { LightboxComponent } from "./lightbox.component";
       ></a>
       <span class="brand-note">NHỮNG NGÀY CÓ NHAU</span>
       <nav aria-label="Điều hướng chính">
-        <a routerLink="/chuyen-minh">Chuyện mình</a>
+        <a routerLink="/">Chuyện mình</a>
         <a routerLink="/khoanh-khac">Khoảnh khắc</a>
         <a class="desktop-nav" routerLink="/loi-thuong">Lời thương</a>
         <a class="special-nav" routerLink="/20-11" routerLinkActive="active"
@@ -38,7 +38,7 @@ import { LightboxComponent } from "./lightbox.component";
     <app-lightbox />
     <div class="reading-progress" aria-hidden="true" [style.transform]="'scaleX(' + progress() + ')' "></div>
     <div class="floating-tools"><app-piano /><button class="back-top" [class.visible]="progress() > 0.025" (click)="toTop()" aria-label="Về đầu trang">Lên đầu <span aria-hidden="true">⌃</span></button></div>
-    <nav class="mobile-chapters" aria-label="Đi nhanh giữa các trang"><a routerLink="/chuyen-minh">Chuyện mình</a><a routerLink="/khoanh-khac">Ảnh</a><a routerLink="/loi-thuong">Thư</a><a routerLink="/20-11">20/11 ♡</a></nav>
+    <nav class="mobile-chapters" aria-label="Đi nhanh giữa các trang"><a routerLink="/">Chuyện mình</a><a routerLink="/khoanh-khac">Ảnh</a><a routerLink="/loi-thuong">Thư</a><a routerLink="/20-11">20/11 ♡</a></nav>
     <footer class="site-footer">
       <a class="brand" routerLink="/" aria-label="Trang chủ"
         >A<span>&</span>T</a
