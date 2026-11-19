@@ -1,0 +1,12 @@
+# Personal originals, selected files, letters and content drafts: local only.
+/local-media/
+
+# Curated public assets are copied/generated locally and supplied separately for deployment.
+/public/media/
+
+/node_modules/
+/.angular/
+/dist/
+/output/
+/.playwright-cli/
+*.log
