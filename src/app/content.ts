@@ -1,3 +1,17 @@
+const teachersLetter = {
+  date: "20.11.2026",
+  title: "Gửi cô giáo anh thương",
+  source: "teachers-letter",
+  excerpt: "Lời chúc 20/11, anh đã viết tay gửi em.",
+  from: "TỪ ANH, GỬI EM",
+  signature: "Thương em,\nBình An",
+  paragraphs: [
+    "Chúc cô giáo của anh một ngày 20/11 thật vui. Mong những điều em kiên nhẫn dạy hôm nay sẽ giúp học trò tự tin hơn ngày mai, và đem lại cho em nhiều điều để tự hào.",
+    "Em dành sự tận tâm cho từng bài học. Anh mong em cũng nhận về thật nhiều yêu mến, những lời cảm ơn chân thành và niềm vui được làm điều mình thích.",
+    "Chúc em một ngày đáng nhớ, cô giáo anh thương ♡",
+  ],
+} as const;
+
 export const story = {
   milestones: [
     {
@@ -95,13 +109,7 @@ export const story = {
         "Em cảm ơn anh vì đã xuất hiện và mang đến những điều thật dễ thương ♡ !",
       ],
     },
+    teachersLetter,
   ],
-  teachersLetter: {
-    title: "Gửi cô giáo anh thương",
-    paragraphs: [
-      "Em thương,",
-      "Chúc em 20/11 thật vui, luôn giữ được niềm yêu nghề và nhận thật nhiều yêu thương từ học trò.",
-      "Mong cô giáo của anh luôn cười xinh, bình an và hạnh phúc với những điều mình chọn.",
-    ],
-  },
+  teachersLetter,
 } as const;

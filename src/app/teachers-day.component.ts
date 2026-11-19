@@ -27,7 +27,7 @@ import { story } from "./content";
     <section class="teachers-letter teachers-letter-short">
       <div class="page-width letter-layout">
         <div><span class="eyebrow">DÀNH RIÊNG CHO EM</span><h2>Một lời chúc.<br /><em>Thật nhiều thương.</em></h2></div>
-        <app-letter [title]="story.teachersLetter.title" [paragraphs]="story.teachersLetter.paragraphs" [shortPaper]="true" />
+        <app-letter [title]="story.teachersLetter.title" [paragraphs]="story.teachersLetter.paragraphs" [signature]="story.teachersLetter.signature" [source]="story.teachersLetter.source" [shortPaper]="true" />
       </div>
     </section>
     <section class="heart-universe teacher-heart-universe" [class.heart-celebration]="celebrating()">

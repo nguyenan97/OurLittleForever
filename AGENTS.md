@@ -10,3 +10,4 @@
 - Use anh and em in narrative copy; keep A & T branding. Remove elapsed-day counters.
 - Keep romantic motion continuous while visible and remove all motion toggle controls. Reduced motion may soften movement, without introducing a toggle.
 - Personal media is published as an optimized GitHub Release asset and restored into the Pages build. Never commit original or public image files.
+- The user selects photographs. Add only explicitly named or attached photos; do not choose replacement photos without being asked.

@@ -55,7 +55,8 @@ Sau khi sửa source, commit/push `main`; workflow lấy media bundle rồi buil
 ## Nội dung và motion
 
 - Nội dung: `src/app/content.ts`. 28/10 gặp nhau, 31/10 buổi hẹn ở nhà em, 07/11 buổi hẹn riêng, 14/11 chính thức yêu nhau.
-- Bốn lá thư gốc có bản chép từ ảnh, giữ cách dùng từ và người gửi. Thư em gửi anh ngày 07/11 được ghi riêng. Thư 20/11 viết mới theo giọng của anh, ký Bình An, không kể chuyện tặng hoa hôm ấy.
+- Các thư gốc có bản chép và ảnh viết tay, giữ đúng người gửi. Thư 20/11 dùng lời chúc đã được anh chọn, có ảnh thư tay đính kèm và lưu cả trong mục Lời thương.
+- Anh tự chọn ảnh cho website. Chỉ thêm ảnh được chỉ định hoặc đính kèm, không tự chọn ảnh thay thế.
 - Trái tim Three.js có khối beveled, hạt sáng và quỹ đạo. Three.js tải khi gần viewport, dispose khi đổi trang. Vòng ảnh CSS 3D xoay liên tục, photobooth xếp lớp, Polaroid nổi nhẹ, cánh hoa và trái tim trôi. Không có motion toggle.
 - Reduced motion làm chuyển động dịu hơn; tab ẩn/canvas ngoài viewport không render WebGL để giảm tải máy.
 - iPhone Safari 16.4+ là browser target. Có safe areas, vùng chạm ổn định, modal scroll lock, ảnh responsive và swipe lightbox.
