@@ -2,6 +2,7 @@
   "name": "our-little-forever",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "npm@11.21.3",
   "scripts": {
     "media": "node scripts/prepare-media.mjs",
     "prestart": "npm run media",
