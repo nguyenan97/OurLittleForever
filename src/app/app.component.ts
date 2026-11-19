@@ -1,6 +1,7 @@
-import { Component, HostListener, signal } from "@angular/core";
+import { Component, HostListener, inject, signal } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PianoComponent } from "./piano.component";
-import { RouterLink, RouterOutlet, RouterLinkActive } from "@angular/router";
+import { NavigationSkipped, Router, RouterLink, RouterOutlet, RouterLinkActive, Scroll } from "@angular/router";
 import { AmbientComponent } from "./ambient.component";
 import { LightboxComponent } from "./lightbox.component";
 
@@ -48,22 +49,27 @@ import { LightboxComponent } from "./lightbox.component";
   `,
 })
 export class AppComponent {
+  private router = inject(Router);
   protected progress = signal(0);
+  constructor() {
+    this.router.events.pipe(takeUntilDestroyed()).subscribe(event => {
+      if (event instanceof Scroll && !event.position) this.scrollToRoute("instant");
+      if (event instanceof NavigationSkipped) this.scrollToRoute("smooth");
+    });
+  }
   @HostListener("window:scroll") updateProgress() {
     const distance = document.documentElement.scrollHeight - innerHeight;
     this.progress.set(distance > 0 ? scrollY / distance : 0);
   }
   toTop() { window.scrollTo({ top: 0, behavior: "smooth" }); }
-  @HostListener("document:click", ["$event"]) revisit(event: MouseEvent) {
-    if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-    const anchor = (event.target as HTMLElement).closest("a");
-    if (!anchor || anchor.target === "_blank") return;
-    const target = new URL(anchor.href);
-    if (target.origin !== location.origin || target.pathname.replace(/\/$/, "") !== location.pathname.replace(/\/$/, "")) return;
-    const sections: Record<string,string> = { "chuyen-minh":"chuyen-minh", "khoanh-khac":"khoanh-khac", "loi-thuong":"thu" };
-    const section = sections[target.pathname.split("/").filter(Boolean).at(-1) || ""];
-    if (section) document.getElementById(section)?.scrollIntoView({ behavior:"smooth" });
-    else this.toTop();
+  private scrollToRoute(behavior: ScrollBehavior) {
+    // Run after the router's own scrolling, once the routed view is rendered.
+    requestAnimationFrame(() => {
+      const sections: Record<string,string> = { "chuyen-minh":"chuyen-minh", "khoanh-khac":"khoanh-khac", "loi-thuong":"thu" };
+      const section = sections[this.router.url.split("/").filter(Boolean).at(-1) || ""];
+      if (section) document.getElementById(section)?.scrollIntoView({ behavior });
+      else window.scrollTo({ top:0, behavior });
+    });
   }
   skipToContent() {
     const main = document.getElementById("main");

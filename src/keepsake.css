@@ -43,7 +43,7 @@
 .video-window { position:relative; }
 .booth-video .video-window { aspect-ratio:1/3; }
 .meeting-video .video-window { aspect-ratio:512/910; }
-.video-window > video { position:absolute; inset:0; width:100%; height:100%; max-height:none; }
+.video-memory .video-window > video { position:absolute; inset:0; width:100%; height:100%; max-height:none; }
 .video-cover { position:absolute; inset:0; width:100%; height:100%; padding:0; border:0; background:#e7b0b5; cursor:pointer; overflow:hidden; }
 .video-cover img { display:block; width:100%; height:100%; object-fit:contain; }
 .video-cover > span { position:absolute; left:7px; right:7px; bottom:14px; padding:9px 4px; border-radius:4px; background:#45283ee8; color:#fff1e8; font:inherit; font-size:.75rem; box-shadow:0 3px 15px #0002; }

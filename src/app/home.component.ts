@@ -1,5 +1,5 @@
-import { afterNextRender, Component, inject } from "@angular/core";
-import { ActivatedRoute, RouterLink } from "@angular/router";
+import { Component } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { PhotoComponent } from "./photo.component";
 import { GalleryComponent } from "./gallery.component";
 import { LetterComponent } from "./letter.component";
@@ -233,16 +233,4 @@ import { story } from "./content";
 })
 export class HomeComponent {
   protected story = story;
-  private route = inject(ActivatedRoute);
-  constructor() {
-    afterNextRender(() => {
-      const section = this.route.snapshot.data["section"] as string | undefined;
-      if (section)
-        requestAnimationFrame(() =>
-          document
-            .getElementById(section)
-            ?.scrollIntoView({ behavior: "instant" }),
-        );
-    });
-  }
 }
