@@ -17,7 +17,6 @@ import { story } from "./content";
           [eager]="true"
         />
       </div>
-      <app-galaxy />
       <div class="teachers-hero-inner page-width">
         <div class="teachers-hero-copy">
           <span class="eyebrow light">20.11.2026 · NGÀY NHÀ GIÁO VIỆT NAM</span>
@@ -56,17 +55,17 @@ import { story } from "./content";
         </article>
         <article>
           <span aria-hidden="true">❀</span>
-          <h3>Một khoảng nghỉ cho em</h3>
+          <h3>Luôn được là chính em</h3>
           <p>
-            Giữa công việc và những buổi dạy, mong em vẫn đủ thảnh thơi để chăm
-            mình, cười vui và làm điều em thích.
+            Mong em luôn cười vui, tự tin với những điều mình chọn và được yêu
+            thương bằng chính sự dịu dàng em vẫn dành cho mọi người.
           </p>
         </article>
         <article>
           <span aria-hidden="true">♡</span>
           <h3>Một người để em tựa vào</h3>
           <p>
-            Có hoa, có lời chúc, và có anh. Không chỉ hôm nay, mà cả những ngày
+            Có lời chúc, một cái ôm, và có anh. Hôm nay, và cả những ngày
             chẳng có dịp gì.
           </p>
         </article>
@@ -75,8 +74,8 @@ import { story } from "./content";
     <section id="loi-chuc" class="teachers-letter">
       <div class="page-width letter-layout">
         <div>
-          <span class="eyebrow">SAU BUỔI DẠY, CÓ MỘT LỜI THƯƠNG ĐỢI</span>
-          <h2>Em nhận hoa nhé.<br /><em>Và nhận cả một trời thương.</em></h2>
+          <span class="eyebrow">MỘT LÁ THƯ, DÀNH RIÊNG CHO EM</span>
+          <h2>Em mở thư nhé.<br /><em>Có một trời thương ở đây.</em></h2>
           <p>
             Vài dòng thôi.<br />Nhưng là những điều anh muốn gửi em thật lòng.
           </p>
@@ -90,12 +89,17 @@ import { story } from "./content";
         />
       </div>
     </section>
+    <section class="heart-universe">
+      <div class="center-heading"><span class="eyebrow light">DÀNH CHO CÔ GIÁO CỦA ANH</span><h2>Một trái tim nhỏ.<br /><em>Một điều thương thật lâu.</em></h2></div>
+      <app-galaxy class="heart-showcase" />
+      <p>Có em, những ngày bình thường cũng đáng để nhớ.</p>
+    </section>
     <section class="teacher-memory page-width section-space">
       <div class="teacher-memory-photo">
         <app-photo id="date-flowers" sizes="(max-width:600px) 80vw, 37vw" />
       </div>
       <div>
-        <span class="eyebrow">TỪ MỘT BÓ HOA, THÀNH THẬT NHIỀU THƯƠNG</span>
+        <span class="eyebrow">07.11.2026 · TỪ MỘT BÓ HOA, THÀNH THẬT NHIỀU THƯƠNG</span>
         <h2>Mong được tặng em hoa,<br /><em>thêm nhiều lần nữa.</em></h2>
         <p>
           Như điều anh đã viết trong lá thư đầu tiên.<br />Vẫn là điều anh mong,
@@ -105,9 +109,7 @@ import { story } from "./content";
           class="button primary flower-button"
           (click)="flowersSent.set(true)"
         >
-          {{
-            flowersSent() ? "Gửi em cả một trời thương ♡" : "Nhận một bó thương"
-          }}
+          {{ flowersSent() ? "Anh thương em ♡" : "Chạm để nhận một chút thương ♡" }}
         </button>
         <p class="gift-feedback" aria-live="polite">
           {{
@@ -138,21 +140,21 @@ export class TeachersDayComponent {
   protected story = story;
   protected flowersSent = signal(false);
   protected petals = [
-    "❀",
+    "♥",
     "♡",
     "✧",
-    "❀",
-    "✿",
+    "♥",
+    "♡",
     "♡",
     "✧",
-    "❀",
+    "♥",
     "♡",
-    "✿",
-    "❀",
+    "♡",
+    "♥",
     "✧",
     "♡",
-    "❀",
-    "✿",
+    "♥",
+    "♡",
     "♡",
   ];
   showLetter() {

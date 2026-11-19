@@ -15,7 +15,7 @@
             "index": "src/index.html",
             "tsConfig": "tsconfig.app.json",
             "assets": [{ "glob": "**/*", "input": "public" }],
-            "styles": ["src/styles.css"],
+            "styles": ["src/styles.css", "src/keepsake.css"],
             "outputPath": "dist/our-little-forever"
           },
           "configurations": {

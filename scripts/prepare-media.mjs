@@ -30,13 +30,31 @@ for (const item of selected) {
   originalBytes += bytes.length;
   const key = createHash("sha256")
     .update(bytes)
-    .update("romantic-v2")
+    .update("romantic-v3-natural")
+    .update(JSON.stringify({ crop: item.crop, tone: item.tone }))
     .digest("hex")
     .slice(0, 16);
   const meta = await sharp(bytes).metadata();
   const rotated = [5, 6, 7, 8].includes(meta.orientation);
-  const width = rotated ? meta.height : meta.width,
-    height = rotated ? meta.width : meta.height;
+  const sourceWidth = rotated ? meta.height : meta.width,
+    sourceHeight = rotated ? meta.width : meta.height;
+  const crop = item.crop && {
+    left: Math.round(item.crop[0] * sourceWidth),
+    top: Math.round(item.crop[1] * sourceHeight),
+    width: Math.round(item.crop[2] * sourceWidth),
+    height: Math.round(item.crop[3] * sourceHeight),
+  };
+  const width = crop?.width || sourceWidth,
+    height = crop?.height || sourceHeight;
+  // Small photographic corrections only. No face retouching or generated pixels.
+  const pipeline = () => {
+    let photo = sharp(bytes).rotate();
+    if (crop) photo = photo.extract(crop);
+    return photo.modulate({
+      brightness: item.tone?.brightness ?? (item.category === "portrait" ? 1.008 : 1.025),
+      saturation: item.category === "letter" ? 1 : item.category === "portrait" ? 1.008 : 1.018,
+    }).linear(1.012, -1.2);
+  };
   const widths = [
     ...new Set(
       [480, 960, item.category === "letter" ? 2200 : 1600].map((w) =>
@@ -51,15 +69,15 @@ for (const item of selected) {
     const webpPath = path.join(target, webp),
       avifPath = path.join(target, avif);
     if (!(await exists(webpPath)))
-      await sharp(bytes)
-        .rotate()
+      await pipeline()
         .resize({ width: size, withoutEnlargement: true })
+        .sharpen({ sigma: 0.4, m1: 0.25, m2: 0.5 })
         .webp({ quality: item.category === "letter" ? 91 : 81, effort: 4 })
         .toFile(webpPath);
     if (!(await exists(avifPath)))
-      await sharp(bytes)
-        .rotate()
+      await pipeline()
         .resize({ width: size, withoutEnlargement: true })
+        .sharpen({ sigma: 0.4, m1: 0.25, m2: 0.5 })
         .avif({ quality: item.category === "letter" ? 67 : 53, effort: 3 })
         .toFile(avifPath);
     outputBytes += (await stat(webpPath)).size + (await stat(avifPath)).size;

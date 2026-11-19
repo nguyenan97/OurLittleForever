@@ -15,6 +15,9 @@ const types = {
   ".json": "application/json",
   ".svg": "image/svg+xml",
   ".webp": "image/webp",
+  ".avif": "image/avif",
+  ".mp4": "video/mp4",
+  ".mp3": "audio/mpeg",
   ".jpg": "image/jpeg",
   ".png": "image/png",
   ".woff2": "font/woff2",
@@ -43,11 +46,19 @@ http
         file = path.join(file, "index.html");
       }
       const bytes = await readFile(file);
+      const range = request.headers.range?.match(/^bytes=(\d+)-(\d*)$/);
+      if (range) {
+        const start = Number(range[1]), end = range[2] ? Math.min(Number(range[2]), bytes.length - 1) : bytes.length - 1;
+        if (start > end || start >= bytes.length) { response.writeHead(416, { "Content-Range": `bytes */${bytes.length}` }).end(); return; }
+        response.writeHead(206, { "Content-Type": types[path.extname(file)] || "application/octet-stream", "Content-Range": `bytes ${start}-${end}/${bytes.length}`, "Content-Length": end-start+1, "Accept-Ranges": "bytes", "Cache-Control": "no-store" });
+        response.end(bytes.subarray(start,end+1)); return;
+      }
       response
         .writeHead(200, {
           "Content-Type":
             types[path.extname(file)] || "application/octet-stream",
           "Cache-Control": "no-store",
+          "Accept-Ranges": "bytes",
         })
         .end(bytes);
     } catch {

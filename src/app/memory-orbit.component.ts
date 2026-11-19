@@ -8,7 +8,7 @@ import { PhotoComponent } from "./photo.component";
       <div class="orbit-aura"></div>
       <div class="memory-orbit">
         @for (id of photos; track id; let i = $index) {
-          <div class="orbit-card" [style.--angle]="i * 45 + 'deg'">
+          <div class="orbit-card" [style.--angle]="i * (360 / photos.length) + 'deg'">
             <app-photo [id]="id" sizes="(max-width:600px) 140px, 200px" /><span
               >♡</span
             >
@@ -22,7 +22,7 @@ import { PhotoComponent } from "./photo.component";
 })
 export class MemoryOrbitComponent {
   protected photos = [
-    "couple-smile",
+    "booth-smile",
     "date-flowers",
     "our-kiss",
     "first-meeting",
@@ -30,5 +30,9 @@ export class MemoryOrbitComponent {
     "her-smile",
     "private-date",
     "hands",
+    "first-laughter",
+    "heart-hands",
+    "portrait-sun",
+    "mirror",
   ];
 }

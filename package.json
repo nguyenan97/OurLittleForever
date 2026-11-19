@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "npm@11.21.3",
   "scripts": {
-    "media": "node scripts/prepare-media.mjs",
+    "media": "node scripts/prepare-media.mjs && node scripts/prepare-video.mjs && node scripts/prepare-piano.mjs",
     "prestart": "npm run media",
     "start": "ng serve --host 127.0.0.1 --port 4200",
     "prebuild": "npm run media",

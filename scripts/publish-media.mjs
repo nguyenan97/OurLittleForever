@@ -11,14 +11,20 @@ const photos = JSON.parse(
 if (!photos.length)
   throw new Error("Refusing to replace published media with an empty album.");
 const files = new Set(["media/manifest.json"]);
+files.add("media/audio/piano-v1.mp3");
 for (const photo of photos)
   for (const variant of photo.variants) {
     files.add(variant.webp);
     files.add(variant.avif);
   }
+const videos = JSON.parse(await readFile(path.join(root, "public/media/videos.json"), "utf8").catch(() => "[]"));
+if (videos.length) {
+  files.add("media/videos.json");
+  for (const video of videos) { files.add(video.src); files.add(video.poster); }
+}
 for (const name of files)
   if (
-    !/^media\/(manifest\.json|photos\/[a-f0-9]+-\d+\.(webp|avif))$/.test(name)
+    !/^media\/((manifest|videos)\.json|photos\/[a-f0-9]+-\d+\.(webp|avif)|videos\/[a-f0-9]+\.(mp4|webp)|audio\/piano-v1\.mp3)$/.test(name)
   )
     throw new Error("Unexpected public asset path.");
 await mkdir(path.join(root, "output"), { recursive: true });
@@ -62,5 +68,5 @@ else
     { cwd: root, stdio: "inherit" },
   );
 console.log(
-  `Published ${photos.length} curated photographs as a release asset. No image files committed.`,
+  `Published ${photos.length} photographs, ${videos.length} videos and the piano loop as a release asset. No media files committed.`,
 );

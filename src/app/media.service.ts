@@ -27,7 +27,7 @@ export class MediaService {
     inject(Router).events.subscribe((event) => {
       if (event instanceof NavigationStart) this.close();
     });
-    fetch(new URL("media/manifest.json", document.baseURI))
+    fetch(new URL("media/manifest.json", document.baseURI), { cache: "no-cache" })
       .then((r) => {
         if (!r.ok) throw new Error("Media unavailable");
         return r.json();

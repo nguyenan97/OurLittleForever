@@ -22,7 +22,7 @@ import { PhotoComponent } from "./photo.component";
     </div>
     <div class="photo-grid">
       @for (photo of collection(); track photo.id; let i = $index) {
-        <figure class="gallery-photo" [class.gallery-featured]="i % 7 === 0">
+        <figure class="gallery-photo" [class.gallery-featured]="i % 7 === 0" [class.gallery-strip]="photo.id === 'booth-strip'" [class.gallery-landscape]="photo.id === 'private-date' || photo.id === 'booth-smile'">
           <app-photo [id]="photo.id" sizes="(max-width:600px) 46vw, 30vw" />
           <figcaption>
             {{ photo.caption }}<span>{{ photo.date }}</span>

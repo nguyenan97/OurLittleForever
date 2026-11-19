@@ -4,6 +4,8 @@ import { PhotoComponent } from "./photo.component";
 import { GalleryComponent } from "./gallery.component";
 import { LetterComponent } from "./letter.component";
 import { MemoryOrbitComponent } from "./memory-orbit.component";
+import { GalaxyComponent } from "./galaxy.component";
+import { PhotoboothComponent } from "./photobooth.component";
 import { story } from "./content";
 @Component({
   selector: "app-home",
@@ -13,6 +15,8 @@ import { story } from "./content";
     GalleryComponent,
     LetterComponent,
     MemoryOrbitComponent,
+    GalaxyComponent,
+    PhotoboothComponent,
   ],
   template: `
     <section class="love-hero">
@@ -50,7 +54,7 @@ import { story } from "./content";
           </div>
           <div class="hero-polaroid">
             <app-photo
-              id="couple-smile"
+              id="our-kiss"
               sizes="(max-width:600px) 150px, 210px"
             /><span>Thích nhất là có nhau.</span>
           </div>
@@ -69,6 +73,7 @@ import { story } from "./content";
       <h2>
         Chỉ cần mỗi lần nhìn lại,<br />vẫn thấy <em>mình đã thương nhau.</em>
       </h2>
+      <p class="quote-thought">Có lẽ những điều đã qua đều có lý do của nó. Để đến một ngày, anh gặp em và muốn thương một người bằng tất cả chân thành.</p>
       <span class="quote-flower" aria-hidden="true">❀</span>
     </section>
     <section id="chuyen-minh" class="story-section page-width section-space">
@@ -81,11 +86,14 @@ import { story } from "./content";
       </div>
       <div class="story-chapters">
         @for (moment of story.milestones; track moment.iso; let i = $index) {
-          <article class="story-chapter" [class.reverse]="i % 2 === 1">
+          <article class="story-chapter" [class.reverse]="i % 2 === 1" [class.first-chapter]="i === 0">
             <div
               class="chapter-image"
               [class.letter-image]="moment.photo === 'first-letter'"
             >
+              @if (moment.photo === 'first-letter') {
+                <app-photo class="letter-photo-backdrop" id="portrait-window" [zoom]="false" sizes="480px" />
+              }
               <app-photo
                 [id]="moment.photo"
                 sizes="(max-width:600px) 88vw, 48vw"
@@ -101,12 +109,21 @@ import { story } from "./content";
         }
       </div>
     </section>
+    <section class="heart-universe">
+      <div class="center-heading">
+        <span class="eyebrow light">GIỮA BAO NHIÊU NGƯỜI, ANH GẶP EM</span>
+        <h2>Một chút vũ trụ.<br /><em>Thật nhiều thương em.</em></h2>
+      </div>
+      <app-galaxy class="heart-showcase" />
+      <p>Trong những điều anh muốn giữ,<br />luôn có em.</p>
+    </section>
     <section class="orbit-section">
       <div class="center-heading">
         <span class="eyebrow light">GIỮ THÊM MỘT CHÚT GẦN NHAU</span>
         <h2>Thế giới có thể quay.<br /><em>Anh vẫn muốn ở cạnh em.</em></h2>
       </div>
       <app-memory-orbit />
+      <app-photobooth />
     </section>
     <section class="muse-section page-width section-space">
       <div class="muse-intro">
@@ -173,13 +190,14 @@ import { story } from "./content";
             <h2>Giấy có thể cũ.<br /><em>Lời thương thì còn.</em></h2>
           </div>
           <p>
-            Những lá thư thật, anh đã viết cho em.<br />Chạm vào ảnh để đọc lại
+            Những lá thư mình đã gửi nhau.<br />Chạm vào ảnh để đọc lại
             nét chữ ngày ấy.
           </p>
         </div>
         <div class="letters-grid">
           @for (letter of story.letters; track letter.source) {
             <article class="letter-card">
+              <app-photo class="letter-photo-backdrop" id="portrait-detail" [zoom]="false" sizes="480px" />
               <app-photo
                 [id]="letter.source"
                 sizes="(max-width:600px) 85vw, 28vw"
@@ -193,6 +211,8 @@ import { story } from "./content";
                   [paragraphs]="letter.paragraphs"
                   [source]="letter.source"
                   [compact]="true"
+                  [from]="letter.from"
+                  [signature]="letter.signature"
                 />
               </div>
             </article>
@@ -207,7 +227,7 @@ import { story } from "./content";
           >Nên anh giữ những ngày có em.</em
         >
       </h2>
-      <p>Và những trang tiếp theo, mình cùng viết nhé.</p>
+      <p>Mong những đêm giao thừa, những mùa Tết và những ngày lễ Tình nhân sau này,<br />người anh nắm tay vẫn là em.</p>
     </section>
   `,
 })

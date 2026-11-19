@@ -47,16 +47,15 @@ import { lockModalScroll, unlockModalScroll } from "./modal-scroll";
         ×
       </button>
       <article class="letter-paper">
-        <span class="eyebrow">TỪ ANH, GỬI EM</span>
+        <span class="eyebrow">{{ from() }}</span>
         <h2 [id]="headingId">{{ title() }}</h2>
         <span class="letter-divider" aria-hidden="true">❀</span>
         @for (p of paragraphs(); track $index) {
           <p>{{ p }}</p>
         }
-        <div class="signature">
-          <span>Thương em,</span><strong>Anh</strong
-          ><span aria-hidden="true">♡</span>
-        </div>
+        @if (signature()) {
+          <div class="signature"><strong>{{ signature() }}</strong></div>
+        }
         @if (source(); as id) {
           <div class="original-letter">
             <span class="eyebrow">NÉT CHỮ NGÀY ẤY</span
@@ -78,6 +77,8 @@ export class LetterComponent implements OnDestroy {
   paragraphs = input.required<readonly string[]>();
   source = input<string>();
   compact = input(false);
+  from = input("TỪ ANH, GỬI EM");
+  signature = input("Thương em ♡\nBình An");
   @ViewChild("letterDialog") dialog!: ElementRef<HTMLDialogElement>;
   private trigger?: HTMLElement;
   open() {
