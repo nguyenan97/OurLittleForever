@@ -15,14 +15,14 @@ export class PianoComponent implements OnDestroy {
   protected starting = signal(false);
   protected status = signal("");
   private resumeOnVisible = false;
-  constructor() { document.addEventListener("visibilitychange", this.visibility); }
+  constructor() { document.addEventListener("visibilitychange", this.visibility); document.addEventListener("memory-video-play", this.videoStarted); }
   async toggle() {
     const audio = this.piano.nativeElement;
     if (this.playing()) { audio.pause(); this.playing.set(false); this.resumeOnVisible=false; return; }
     this.starting.set(true);
     if (!audio.getAttribute("src")) audio.src = this.url;
     audio.volume = 0.45;
-    try { await audio.play(); this.playing.set(true); this.status.set("Piano đang phát nhẹ"); }
+    try { await audio.play(); document.dispatchEvent(new Event("piano-play")); this.playing.set(true); this.status.set("Piano đang phát nhẹ"); }
     catch { this.failed(); }
     finally { this.starting.set(false); }
   }
@@ -32,5 +32,6 @@ export class PianoComponent implements OnDestroy {
     if (document.hidden) { this.resumeOnVisible=this.playing(); audio.pause(); }
     else if (this.resumeOnVisible) { this.resumeOnVisible=false; void audio.play().catch(() => this.failed()); }
   };
-  ngOnDestroy() { document.removeEventListener("visibilitychange",this.visibility); this.piano?.nativeElement.pause(); }
+  private videoStarted = () => { this.piano.nativeElement.pause(); this.playing.set(false); this.resumeOnVisible=false; };
+  ngOnDestroy() { document.removeEventListener("visibilitychange",this.visibility); document.removeEventListener("memory-video-play",this.videoStarted); this.piano?.nativeElement.pause(); }
 }

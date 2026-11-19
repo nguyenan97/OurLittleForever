@@ -27,14 +27,11 @@ import { story } from "./content";
           <h1>
             Có em,<br />những ngày thường<br />cũng hóa <em>dịu dàng.</em>
           </h1>
-          <p>
-            Anh cất những lần gặp, những dòng thư<br />và những điều thương chưa
-            nói hết vào đây.
-          </p>
+          <p>Những ngày có em, anh cất ở đây.</p>
           <div class="hero-actions">
             <a class="button cream" routerLink="/chuyen-minh"
-              >Mở câu chuyện của mình <span aria-hidden="true">♡</span></a
-            ><a class="light-link" routerLink="/loi-thuong">Có thư gửi em</a>
+              >Chuyện mình <span aria-hidden="true">♡</span></a
+            ><a class="light-link" routerLink="/loi-thuong">Đọc thư</a>
           </div>
           <div class="hero-footnote">
             <span class="fine-line"></span>Từ một lần gặp, thành một người
@@ -82,7 +79,6 @@ import { story } from "./content";
           <span class="eyebrow">NHỮNG NGÀY ANH MUỐN NHỚ</span>
           <h2>Rồi mình thành <em>chúng mình.</em></h2>
         </div>
-        <p>Có những ngày,<br />chỉ một tấm ảnh cũng kể được rất nhiều.</p>
       </div>
       <div class="story-chapters">
         @for (moment of story.milestones; track moment.iso; let i = $index) {
@@ -129,10 +125,6 @@ import { story } from "./content";
       <div class="muse-intro">
         <span class="eyebrow">MỘT PHIÊN BẢN EM, THẬT RIÊNG</span>
         <h2>Em của những<br /><em>miền dịu dàng.</em></h2>
-        <p>
-          Nét đài các trong bộ ảnh Nam Phương,<br />và nét dễ thương anh vẫn
-          muốn ngắm mỗi ngày.
-        </p>
         <span aria-hidden="true">✧</span>
       </div>
       <div class="muse-mosaic">
@@ -159,14 +151,13 @@ import { story } from "./content";
           <app-photo id="portrait-door" sizes="(max-width:600px) 70vw, 30vw" />
         </div>
         <div class="teaser-copy">
-          <span class="eyebrow">20 THÁNG 11 · MỘT MÓN QUÀ ĐỂ DÀNH</span>
+          <span class="eyebrow">20 THÁNG 11</span>
           <h2>Gửi cô giáo<br /><em>anh thương.</em></h2>
-          <p>Sau những giờ gieo chữ,<br />có một lời thương đợi em.</p>
           <a class="button primary" routerLink="/20-11"
-            >Mở món quà 20/11 <span aria-hidden="true">❀</span></a
+            >Đọc lời chúc 20/11 <span aria-hidden="true">♡</span></a
           >
         </div>
-        <span class="teaser-flower" aria-hidden="true">❀</span>
+        <span class="teaser-flower" aria-hidden="true">♡</span>
       </div>
     </section>
     <section id="khoanh-khac" class="page-width section-space">
@@ -175,10 +166,6 @@ import { story } from "./content";
           <span class="eyebrow">CẤT LẠI NHỮNG ĐIỀU NHỎ XINH</span>
           <h2>Có nhau <em>trong khung hình.</em></h2>
         </div>
-        <p>
-          Một buổi hẹn, một cái nắm tay.<br />Những điều bình thường hóa thành
-          kỷ niệm.
-        </p>
       </div>
       <app-gallery />
     </section>
@@ -189,10 +176,6 @@ import { story } from "./content";
             <span class="eyebrow">NÉT CHỮ CỦA ANH, NHỮNG NGÀY CÓ EM</span>
             <h2>Giấy có thể cũ.<br /><em>Lời thương thì còn.</em></h2>
           </div>
-          <p>
-            Những lá thư mình đã gửi nhau.<br />Chạm vào ảnh để đọc lại
-            nét chữ ngày ấy.
-          </p>
         </div>
         <div class="letters-grid">
           @for (letter of story.letters; track letter.source) {

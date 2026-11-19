@@ -36,7 +36,7 @@ Preview build tại `http://127.0.0.1:4200/OurLittleForever/`. Output ở `dist/
 
 `crop` trong config là `[left, top, width, height]`, tỷ lệ 0-1 theo ảnh sau khi sửa orientation. Khi thay file gốc, kiểm tra lại crop. Các ảnh thư được crop đủ cả lời mở đầu và chữ ký, không tạo lại chữ viết tay.
 
-Hai video xuất H.264/yuv420p, bỏ audio, có faststart và poster WebP. Cần `ffmpeg` trong PATH khi xử lý media local. Script cũng tạo nền piano gốc dài 41 giây thành MP3 96 kbps. Không cần Web Audio trên thiết bị người xem.
+Hai video xuất H.264/yuv420p, giữ audio gốc dưới dạng AAC nếu có, có faststart và poster WebP. Cần `ffmpeg` và `ffprobe` trong PATH khi xử lý media local. `video.mp4` gốc không có audio track nên photobooth được ghi “Không tiếng”. Script cũng tạo nền piano gốc dài 41 giây thành MP3 96 kbps.
 
 Khi chưa có config local, script không thay thế manifest đã có. CI khôi phục media công khai từ deployment bundle, không cần ảnh gốc.
 
@@ -59,7 +59,7 @@ Sau khi sửa source, commit/push `main`; workflow lấy media bundle rồi buil
 - Trái tim Three.js có khối beveled, hạt sáng và quỹ đạo. Three.js tải khi gần viewport, dispose khi đổi trang. Vòng ảnh CSS 3D xoay liên tục, photobooth xếp lớp, Polaroid nổi nhẹ, cánh hoa và trái tim trôi. Không có motion toggle.
 - Reduced motion làm chuyển động dịu hơn; tab ẩn/canvas ngoài viewport không render WebGL để giảm tải máy.
 - iPhone Safari 16.4+ là browser target. Có safe areas, vùng chạm ổn định, modal scroll lock, ảnh responsive và swipe lightbox.
-- Piano mặc định tắt mỗi lần mở web; chỉ gán audio source và phát sau khi chạm Bật nhạc. Giữ lựa chọn khi đổi trang, tạm dừng khi tab ẩn. Video muted, playsinline, preload none và chỉ gán source khi gần viewport; có native controls.
+- Piano mặc định tắt mỗi lần mở web; chỉ gán audio source và phát sau khi chạm Bật nhạc. Video playsinline, preload none, có native controls và phát tiếng gốc khi chạm xem. Piano và video tự dừng lẫn nhau để tránh chồng âm thanh.
 - Thanh điều hướng mobile dùng real paths, có reading progress và nút về đầu trang.
 
 Research tham khảo: [Codrops 3D Carousel](https://tympanus.net/Development/3DCarousel/), [Three.js InstancedMesh và draw calls](https://threejs.org/docs/pages/InstancedMesh.html), [WebKit inline video và user gesture](https://webkit.org/blog/6784/new-video-policies-for-ios/), [web.dev video performance](https://web.dev/learn/performance/video-performance). Dùng một point cloud và một mesh cho trái tim, không tạo mesh riêng cho từng hạt. Hiệu ứng triển khai bằng CSS/Three.js; giữ native media controls cho iPhone.

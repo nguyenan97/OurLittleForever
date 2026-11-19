@@ -20,6 +20,9 @@ import {
     <div class="orbital-ring ring-two" aria-hidden="true"></div>
     <span class="galaxy-star star-one" aria-hidden="true">✧</span
     ><span class="galaxy-star star-two" aria-hidden="true">✦</span>
+    <div class="heart-satellites" aria-hidden="true">
+      @for (satellite of satellites; track $index) { <span [style.--i]="$index">{{ $index % 2 ? '♡' : '♥' }}</span> }
+    </div>
     <ng-content />
   `,
 })
@@ -27,6 +30,7 @@ export class GalaxyComponent implements OnDestroy {
   @ViewChild("canvasHost", { static: true })
   canvasHost!: ElementRef<HTMLDivElement>;
   protected ready = signal(false);
+  protected satellites = Array.from({ length: 10 });
   private destroyed = false;
   private cleanup?: () => void;
   private entrance?: IntersectionObserver;
@@ -127,6 +131,11 @@ export class GalaxyComponent implements OnDestroy {
       const ringMaterial = new THREE.MeshBasicMaterial({ color: 0xe7bb8c, transparent: true, opacity: 0.5 });
       const ring = new THREE.Mesh(ringGeometry, ringMaterial);
       ring.rotation.set(1.05,0.15,0.2); scene.add(ring);
+      const satelliteMaterial = new THREE.MeshPhongMaterial({ color: 0xf3adbb, emissive: 0x5b112a, shininess: 80, specular: 0xffe6ca });
+      const smallHearts = new THREE.InstancedMesh(glassGeometry, satelliteMaterial, 9);
+      smallHearts.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+      const satellitePose = new THREE.Object3D();
+      scene.add(smallHearts);
       let targetX = 0, targetY = 0;
       const pointer = (event: PointerEvent) => {
         if (event.pointerType !== "mouse") return;
@@ -153,6 +162,15 @@ export class GalaxyComponent implements OnDestroy {
           heart.scale.setScalar(1 + Math.sin(elapsed * 1.2) * 0.025);
           glass.rotation.copy(heart.rotation); glass.scale.copy(heart.scale);
           ring.rotation.z = elapsed * 0.09;
+          for (let i = 0; i < 9; i++) {
+            const angle = elapsed * 0.22 + i * Math.PI * 2 / 9;
+            satellitePose.position.set(Math.cos(angle) * 2.05, Math.sin(angle) * 1.7, Math.sin(angle * 2) * 0.6);
+            satellitePose.rotation.set(Math.sin(angle) * 0.2, angle * 0.7, Math.sin(angle) * 0.2);
+            satellitePose.scale.setScalar(0.075 + (i % 3) * 0.018);
+            satellitePose.updateMatrix();
+            smallHearts.setMatrixAt(i, satellitePose.matrix);
+          }
+          smallHearts.instanceMatrix.needsUpdate = true;
         }
         renderer!.render(scene, camera);
         if (visible && !document.hidden) frame = requestAnimationFrame(render);
@@ -196,6 +214,7 @@ export class GalaxyComponent implements OnDestroy {
         heartMaterial.dispose();
         glassGeometry.dispose(); glassMaterial.dispose();
         ringGeometry.dispose(); ringMaterial.dispose();
+        satelliteMaterial.dispose(); smallHearts.dispose();
         host.removeEventListener("pointermove", pointer);
         renderer!.dispose();
         renderer!.domElement.remove();

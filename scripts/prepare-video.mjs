@@ -18,11 +18,13 @@ for (const item of selected) {
   const file = path.join(source, item.filename);
   if (!(await exists(file))) continue;
   const bytes = await readFile(file);
-  const key = createHash("sha256").update(bytes).update("video-v1").digest("hex").slice(0, 16);
+  const probe = JSON.parse(execFileSync("ffprobe", ["-v", "error", "-show_entries", "stream=codec_type", "-of", "json", file], { encoding: "utf8" }));
+  const hasAudio = probe.streams.some(stream => stream.codec_type === "audio");
+  const key = createHash("sha256").update(bytes).update("video-v2-audio").digest("hex").slice(0, 16);
   const dest = path.join(target, key + ".mp4"), poster = path.join(target, key + ".webp");
-  if (!(await exists(dest))) execFileSync("ffmpeg", ["-y", "-v", "error", "-i", file, "-an", "-vf", `scale=${item.width}:-2,eq=brightness=0.005:saturation=1.01`, "-c:v", "libx264", "-preset", "slow", "-crf", "25", "-pix_fmt", "yuv420p", "-movflags", "+faststart", dest], { stdio: "inherit" });
+  if (!(await exists(dest))) execFileSync("ffmpeg", ["-y", "-v", "error", "-i", file, "-map", "0:v:0", "-map", "0:a?", "-vf", `scale=${item.width}:-2,eq=brightness=0.005:saturation=1.01`, "-c:v", "libx264", "-preset", "slow", "-crf", "25", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", dest], { stdio: "inherit" });
   if (!(await exists(poster))) execFileSync("ffmpeg", ["-y", "-v", "error", "-ss", "2", "-i", dest, "-frames:v", "1", "-quality", "80", poster], { stdio: "inherit" });
-  manifest.push({ id: item.id, caption: item.caption, src: `media/videos/${key}.mp4`, poster: `media/videos/${key}.webp`, originalBytes: bytes.length, bytes: (await stat(dest)).size });
+  manifest.push({ id: item.id, caption: item.caption, hasAudio, src: `media/videos/${key}.mp4`, poster: `media/videos/${key}.webp`, originalBytes: bytes.length, bytes: (await stat(dest)).size });
 }
 await writeFile(path.join(root, "public/media/videos.json"), JSON.stringify(manifest, null, 2) + "\n");
 console.log(JSON.stringify(manifest.map(({id, originalBytes, bytes}) => ({id, originalBytes, bytes}))));
