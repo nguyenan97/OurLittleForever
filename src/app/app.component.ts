@@ -1,18 +1,24 @@
 import { Component } from "@angular/core";
 import { RouterLink, RouterOutlet, RouterLinkActive } from "@angular/router";
+import { AmbientComponent } from "./ambient.component";
+import { LightboxComponent } from "./lightbox.component";
 
 @Component({
   selector: "app-root",
-  imports: [RouterLink, RouterOutlet, RouterLinkActive],
+  imports: [
+    RouterLink,
+    RouterOutlet,
+    RouterLinkActive,
+    AmbientComponent,
+    LightboxComponent,
+  ],
   template: `
+    <app-ambient />
     <button class="skip-link" (click)="skipToContent()">
       Đến nội dung chính
     </button>
     <header class="site-header">
-      <a
-        class="brand"
-        routerLink="/"
-        aria-label="Bình An và Thanh Tuyền, trang chủ"
+      <a class="brand" routerLink="/" aria-label="Anh và em, trang chủ"
         >A<span>&</span>T<i></i
       ></a>
       <span class="brand-note">NHỮNG NGÀY CÓ NHAU</span>
@@ -26,12 +32,13 @@ import { RouterLink, RouterOutlet, RouterLinkActive } from "@angular/router";
       </nav>
     </header>
     <main id="main" tabindex="-1"><router-outlet /></main>
+    <app-lightbox />
     <footer class="site-footer">
       <a class="brand" routerLink="/" aria-label="Trang chủ"
         >A<span>&</span>T</a
       >
-      <p>Một góc nhỏ. Hai người. Thật nhiều thương.</p>
-      <span>BÌNH AN & THANH TUYỀN · TỪ 2026</span>
+      <p>Từ một lần gặp, thành một người thương.</p>
+      <span>ANH & EM · TỪ MÙA THU 2026</span>
     </footer>
   `,
 })

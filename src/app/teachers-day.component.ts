@@ -1,69 +1,73 @@
 import { Component, signal } from "@angular/core";
 import { RouterLink } from "@angular/router";
+import { PhotoComponent } from "./photo.component";
 import { GalaxyComponent } from "./galaxy.component";
 import { LetterComponent } from "./letter.component";
 import { story } from "./content";
-
 @Component({
   selector: "app-teachers-day",
-  imports: [RouterLink, GalaxyComponent, LetterComponent],
+  imports: [RouterLink, PhotoComponent, GalaxyComponent, LetterComponent],
   template: `
     <section class="teachers-hero">
-      <app-galaxy
-        ><span class="teachers-sky-note"
-          >MỘT MÓN QUÀ NHỎ TỪ BÌNH AN</span
-        ></app-galaxy
-      >
-      <div class="teachers-hero-copy">
-        <span class="eyebrow light">NGÀY NHÀ GIÁO VIỆT NAM · 20.11.2026</span>
-        <h1>
-          Gửi người gieo chữ,<br /><em>cũng là người<br />Bình An thương.</em>
-        </h1>
-        <p>
-          Chúc Thanh Tuyền một ngày 20/11 thật dịu dàng,<br />đầy ắp nụ cười và
-          những điều ấm áp.
-        </p>
-        <button class="button cream" (click)="showLetter()">
-          Có một lá thư gửi Thanh Tuyền
-          <span aria-hidden="true">♡</span></button
-        ><span class="teachers-hero-signature">Bình An, gửi Thanh Tuyền</span>
+      <div class="teacher-backdrop">
+        <app-photo
+          id="portrait-window"
+          [zoom]="false"
+          sizes="100vw"
+          [eager]="true"
+        />
+      </div>
+      <app-galaxy />
+      <div class="teachers-hero-inner page-width">
+        <div class="teachers-hero-copy">
+          <span class="eyebrow light">20.11.2026 · NGÀY NHÀ GIÁO VIỆT NAM</span>
+          <h1>Gửi cô giáo<br /><em>anh thương.</em></h1>
+          <p>Em gieo những con chữ.<br />Anh cất một lời thương dành cho em.</p>
+          <button class="button cream" (click)="showLetter()">
+            Hôm nay, có thư gửi em <span aria-hidden="true">♡</span></button
+          ><span class="teachers-hero-signature"
+            >Một chút dịu dàng, từ anh.</span
+          >
+        </div>
+        <div class="teacher-portrait">
+          <app-photo
+            id="portrait-hero"
+            sizes="(max-width:600px) 82vw, 35vw"
+            [eager]="true"
+          /><span>Hôm nay, mọi điều đẹp đẽ dành cho em.</span>
+        </div>
       </div>
     </section>
     <section class="wishes-section page-width section-space">
       <div class="center-heading">
-        <span class="eyebrow"
-          >HÔM NAY, NHỮNG ĐIỀU DỊU DÀNG DÀNH CHO THANH TUYỀN</span
-        >
+        <span class="eyebrow">MỘT NGÀY ĐỂ EM ĐƯỢC NHẬN LẠI YÊU THƯƠNG</span>
         <h2>
-          Mong mỗi ngày đứng lớp,<br /><em
-            >đều có một điều làm Thanh Tuyền vui.</em
-          >
+          Em cứ dịu dàng gieo chữ.<br /><em>Để anh thương em thêm một chút.</em>
         </h2>
       </div>
       <div class="wishes-grid">
         <article>
           <span aria-hidden="true">✧</span>
-          <h3>Niềm vui khi gieo chữ</h3>
+          <h3>Niềm vui trong từng bài học</h3>
           <p>
-            Chúc những bài học tiếng Anh luôn có tiếng cười, và sự cố gắng của
-            Thanh Tuyền được đáp lại bằng tiến bộ của học trò.
+            Mong những điều em tận tâm dạy hôm nay sẽ trở thành một niềm tự hào
+            thật đẹp nơi học trò.
           </p>
         </article>
         <article>
           <span aria-hidden="true">❀</span>
-          <h3>Một khoảng nghỉ cho mình</h3>
+          <h3>Một khoảng nghỉ cho em</h3>
           <p>
-            Giữa công việc văn phòng và những buổi dạy thêm, mong Thanh Tuyền
-            vẫn có thời gian nghỉ ngơi, chăm sóc bản thân và làm những điều mình
-            thích.
+            Giữa công việc và những buổi dạy, mong em vẫn đủ thảnh thơi để chăm
+            mình, cười vui và làm điều em thích.
           </p>
         </article>
         <article>
           <span aria-hidden="true">♡</span>
-          <h3>Thật nhiều điều ấm áp</h3>
+          <h3>Một người để em tựa vào</h3>
           <p>
-            Mong ngày hôm nay có những lời chúc chân thành, những nụ cười nhỏ,
-            và cảm giác được trân trọng vì chính con người Thanh Tuyền.
+            Có hoa, có lời chúc, và có anh. Không chỉ hôm nay, mà cả những ngày
+            chẳng có dịp gì.
           </p>
         </article>
       </div>
@@ -71,11 +75,13 @@ import { story } from "./content";
     <section id="loi-chuc" class="teachers-letter">
       <div class="page-width letter-layout">
         <div>
-          <span class="eyebrow">20 THÁNG 11 NĂM 2026</span>
-          <h2>Sau buổi dạy,<br /><em>có một lời thương đợi.</em></h2>
-          <p>Bình An để dành vài dòng ở đây.<br />Thanh Tuyền mở ra đọc nhé.</p>
+          <span class="eyebrow">SAU BUỔI DẠY, CÓ MỘT LỜI THƯƠNG ĐỢI</span>
+          <h2>Em nhận hoa nhé.<br /><em>Và nhận cả một trời thương.</em></h2>
+          <p>
+            Vài dòng thôi.<br />Nhưng là những điều anh muốn gửi em thật lòng.
+          </p>
           <div class="letter-dedication">
-            Gửi riêng Thanh Tuyền <span aria-hidden="true">♡</span>
+            Gửi em, cô giáo của anh. <span aria-hidden="true">♡</span>
           </div>
         </div>
         <app-letter
@@ -84,29 +90,47 @@ import { story } from "./content";
         />
       </div>
     </section>
-    <section class="gift-ending page-width">
-      <span class="eyebrow">MỘT ĐÓA HOA NHỎ, MỘT LỜI CHÚC DÀI</span>
-      <h2>Chúc Thanh Tuyền<br /><em>một ngày thật nhiều thương.</em></h2>
-      <button class="button primary flower-button" (click)="sendFlowers()">
-        {{ flowersSent() ? "Một bó thương đã gửi ♡" : "Nhận một bó thương" }}
-      </button>
+    <section class="teacher-memory page-width section-space">
+      <div class="teacher-memory-photo">
+        <app-photo id="date-flowers" sizes="(max-width:600px) 80vw, 37vw" />
+      </div>
+      <div>
+        <span class="eyebrow">TỪ MỘT BÓ HOA, THÀNH THẬT NHIỀU THƯƠNG</span>
+        <h2>Mong được tặng em hoa,<br /><em>thêm nhiều lần nữa.</em></h2>
+        <p>
+          Như điều anh đã viết trong lá thư đầu tiên.<br />Vẫn là điều anh mong,
+          đến hôm nay.
+        </p>
+        <button
+          class="button primary flower-button"
+          (click)="flowersSent.set(true)"
+        >
+          {{
+            flowersSent() ? "Gửi em cả một trời thương ♡" : "Nhận một bó thương"
+          }}
+        </button>
+        <p class="gift-feedback" aria-live="polite">
+          {{
+            flowersSent()
+              ? "Và một cái ôm thật lâu, từ anh."
+              : "Hôm nay, em cứ nhận những điều dịu dàng nhé."
+          }}
+        </p>
+      </div>
       <div
         class="flower-shower"
-        aria-hidden="true"
         [class.play]="flowersSent()"
+        aria-hidden="true"
       >
         @for (flower of petals; track $index) {
           <span [style.--i]="$index">{{ flower }}</span>
         }
       </div>
-      <p class="gift-feedback" aria-live="polite">
-        {{
-          flowersSent()
-            ? "Từ Bình An, dành riêng cho Thanh Tuyền."
-            : "Có một điều nho nhỏ dành cho Thanh Tuyền."
-        }}
-      </p>
-      <a class="text-link" routerLink="/">Về câu chuyện của hai người</a>
+    </section>
+    <section class="gift-ending page-width">
+      <span aria-hidden="true">❀</span>
+      <h2>Chúc cô giáo của anh<br /><em>một ngày thật nhiều thương.</em></h2>
+      <a class="text-link" routerLink="/">Về câu chuyện của mình</a>
     </section>
   `,
 })
@@ -131,14 +155,7 @@ export class TeachersDayComponent {
     "✿",
     "♡",
   ];
-  sendFlowers() {
-    this.flowersSent.set(true);
-  }
   showLetter() {
-    document.getElementById("loi-chuc")?.scrollIntoView({
-      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? "instant"
-        : "smooth",
-    });
+    document.getElementById("loi-chuc")?.scrollIntoView({ behavior: "smooth" });
   }
 }

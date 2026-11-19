@@ -10,7 +10,9 @@
     "prebuild": "npm run media",
     "build": "ng build",
     "postbuild": "node scripts/prepare-pages.mjs",
-    "build:pages": "npm run media && ng build --base-href /OurLittleForever/ && node scripts/prepare-pages.mjs",
+    "build:pages": "npm run media && npm run compile:pages",
+    "compile:pages": "ng build --base-href /OurLittleForever/ && node scripts/prepare-pages.mjs",
+    "publish:media": "npm run media && node scripts/publish-media.mjs",
     "preview:pages": "node scripts/preview-pages.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },

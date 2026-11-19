@@ -30,7 +30,16 @@ jobs:
       - name: Use the validated npm version for cross-platform optional dependencies
         run: npm install --global npm@11.21.3
       - run: npm ci
-      - run: npm run build:pages
+      - run: npm run media
+      - name: Restore optimized media without committing image files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view website-media --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release download website-media --repo "$GITHUB_REPOSITORY" --pattern media.tar.gz --dir "$RUNNER_TEMP"
+            tar -xzf "$RUNNER_TEMP/media.tar.gz" -C public
+          fi
+      - run: npm run compile:pages
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist/our-little-forever/browser

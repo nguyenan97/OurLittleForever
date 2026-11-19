@@ -1,137 +1,228 @@
 import { afterNextRender, Component, inject } from "@angular/core";
 import { ActivatedRoute, RouterLink } from "@angular/router";
-import { GalaxyComponent } from "./galaxy.component";
-import { LetterComponent } from "./letter.component";
+import { PhotoComponent } from "./photo.component";
 import { GalleryComponent } from "./gallery.component";
-import { story, daysTogether } from "./content";
-
+import { LetterComponent } from "./letter.component";
+import { MemoryOrbitComponent } from "./memory-orbit.component";
+import { story } from "./content";
 @Component({
   selector: "app-home",
-  imports: [RouterLink, GalaxyComponent, LetterComponent, GalleryComponent],
+  imports: [
+    RouterLink,
+    PhotoComponent,
+    GalleryComponent,
+    LetterComponent,
+    MemoryOrbitComponent,
+  ],
   template: `
-    <section class="home-hero page-width">
-      <div class="hero-copy">
-        <div class="eyebrow with-line">BÌNH AN & THANH TUYỀN</div>
-        <h1>Một khoảng trời,<br />dành riêng cho<br /><em>chúng mình.</em></h1>
-        <p>
-          Có những ngày chỉ là một tấm ảnh.<br />Có những ngày, nhìn lại, là cả
-          một khoảng thương.
-        </p>
-        <div class="hero-actions">
-          <a class="button primary" routerLink="/chuyen-minh">Mở câu chuyện</a
-          ><a class="text-link" routerLink="/loi-thuong"
-            >Đọc một lời thương <span aria-hidden="true">♡</span></a
-          >
-        </div>
-        <div class="together">
-          <span class="tiny-heart" aria-hidden="true">♡</span>
-          <div>
-            <strong>{{ days }} ngày <span>kể từ khi có nhau</span></strong
-            ><small>CÂU CHUYỆN BẮT ĐẦU TỪ 28.10.2026</small>
+    <section class="love-hero">
+      <div class="hero-wash" aria-hidden="true"></div>
+      <div class="hero-inner page-width">
+        <div class="hero-copy">
+          <span class="eyebrow light">GỬI EM, MỘT CHÚT THƯƠNG ĐỂ DÀNH</span>
+          <h1>
+            Có em,<br />những ngày thường<br />cũng hóa <em>dịu dàng.</em>
+          </h1>
+          <p>
+            Anh cất những lần gặp, những dòng thư<br />và những điều thương chưa
+            nói hết vào đây.
+          </p>
+          <div class="hero-actions">
+            <a class="button cream" routerLink="/chuyen-minh"
+              >Mở câu chuyện của mình <span aria-hidden="true">♡</span></a
+            ><a class="light-link" routerLink="/loi-thuong">Có thư gửi em</a>
+          </div>
+          <div class="hero-footnote">
+            <span class="fine-line"></span>Từ một lần gặp, thành một người
+            thương.
           </div>
         </div>
+        <div class="hero-portraits">
+          <span class="portrait-orbit orbit-outline-one"></span
+          ><span class="portrait-orbit orbit-outline-two"></span>
+          <div class="portrait-main">
+            <app-photo
+              id="portrait-hero"
+              [eager]="true"
+              sizes="(max-width:600px) 88vw, 43vw"
+            />
+            <div class="portrait-glint"></div>
+          </div>
+          <div class="hero-polaroid">
+            <app-photo
+              id="couple-smile"
+              sizes="(max-width:600px) 150px, 210px"
+            /><span>Thích nhất là có nhau.</span>
+          </div>
+          <span class="hero-spark spark-one" aria-hidden="true">✧</span
+          ><span class="hero-spark spark-two" aria-hidden="true">✦</span
+          ><span class="hero-art-note">EM, TRONG MẮT ANH.</span>
+        </div>
       </div>
-      <div class="hero-art">
-        <app-galaxy
-          ><div class="scene-top">MỖI VÌ SAO, MỘT ĐIỀU THƯƠNG</div>
-          <div class="scene-bottom">
-            <span>Giữa một vũ trụ rộng lớn,</span
-            ><strong>thật vui vì đã gặp nhau.</strong
-            ><i>Bình An & Thanh Tuyền</i>
-          </div></app-galaxy
-        ><span class="orbit-note">MỘT CÂU CHUYỆN NHỎ · MỘT TÌNH YÊU RIÊNG</span
-        ><span class="hero-date"
-          >Từ ngày<br /><strong>28.10</strong><small>2026</small></span
-        >
+      <div class="hero-bottom">
+        <span>ANH & EM</span><span>Chuyện mình còn nhiều trang để viết.</span
+        ><span aria-hidden="true">♡</span>
       </div>
+    </section>
+    <section class="opening-quote page-width">
+      <span class="eyebrow">THƯƠNG NHAU TỪ NHỮNG ĐIỀU NHỎ NHẤT</span>
+      <h2>
+        Chỉ cần mỗi lần nhìn lại,<br />vẫn thấy <em>mình đã thương nhau.</em>
+      </h2>
+      <span class="quote-flower" aria-hidden="true">❀</span>
     </section>
     <section id="chuyen-minh" class="story-section page-width section-space">
       <div class="section-heading">
         <div>
-          <span class="eyebrow">TỪ MỘT LỜI CHÀO</span>
-          <h2>Rồi thành <em>chúng mình.</em></h2>
+          <span class="eyebrow">NHỮNG NGÀY ANH MUỐN NHỚ</span>
+          <h2>Rồi mình thành <em>chúng mình.</em></h2>
         </div>
-        <p>Những ngày đầu tiên,<br />những điều muốn nhớ thật lâu.</p>
+        <p>Có những ngày,<br />chỉ một tấm ảnh cũng kể được rất nhiều.</p>
       </div>
-      <div class="timeline">
-        @for (moment of story.milestones; track moment.iso) {
-          <article class="milestone">
-            <div class="timeline-node" aria-hidden="true">
-              {{ moment.symbol }}
+      <div class="story-chapters">
+        @for (moment of story.milestones; track moment.iso; let i = $index) {
+          <article class="story-chapter" [class.reverse]="i % 2 === 1">
+            <div
+              class="chapter-image"
+              [class.letter-image]="moment.photo === 'first-letter'"
+            >
+              <app-photo
+                [id]="moment.photo"
+                sizes="(max-width:600px) 88vw, 48vw"
+              /><span class="chapter-image-note">{{ moment.note }}</span>
             </div>
-            <time [attr.datetime]="moment.iso">{{ moment.date }}</time>
-            <h3>{{ moment.title }}</h3>
-            <p>{{ moment.text }}</p>
+            <div class="chapter-copy">
+              <time [attr.datetime]="moment.iso">{{ moment.date }}</time>
+              <h3>{{ moment.title }}</h3>
+              <p>{{ moment.text }}</p>
+              <span class="chapter-heart" aria-hidden="true">♡</span>
+            </div>
           </article>
         }
       </div>
     </section>
+    <section class="orbit-section">
+      <div class="center-heading">
+        <span class="eyebrow light">GIỮ THÊM MỘT CHÚT GẦN NHAU</span>
+        <h2>Thế giới có thể quay.<br /><em>Anh vẫn muốn ở cạnh em.</em></h2>
+      </div>
+      <app-memory-orbit />
+    </section>
+    <section class="muse-section page-width section-space">
+      <div class="muse-intro">
+        <span class="eyebrow">MỘT PHIÊN BẢN EM, THẬT RIÊNG</span>
+        <h2>Em của những<br /><em>miền dịu dàng.</em></h2>
+        <p>
+          Nét đài các trong bộ ảnh Nam Phương,<br />và nét dễ thương anh vẫn
+          muốn ngắm mỗi ngày.
+        </p>
+        <span aria-hidden="true">✧</span>
+      </div>
+      <div class="muse-mosaic">
+        <div class="muse-large">
+          <app-photo id="portrait-light" sizes="(max-width:600px) 58vw, 30vw" />
+        </div>
+        <div class="muse-small">
+          <app-photo
+            id="portrait-balcony"
+            sizes="(max-width:600px) 40vw, 22vw"
+          />
+        </div>
+        <div class="muse-wide">
+          <app-photo
+            id="portrait-window"
+            sizes="(max-width:600px) 85vw, 36vw"
+          />
+        </div>
+      </div>
+    </section>
     <section class="teachers-teaser">
       <div class="page-width teaser-inner">
-        <div class="teaser-date">20<span>tháng 11</span></div>
+        <div class="teaser-photo">
+          <app-photo id="portrait-door" sizes="(max-width:600px) 70vw, 30vw" />
+        </div>
         <div class="teaser-copy">
-          <span class="eyebrow">MỘT NGÀY ĐẶC BIỆT, MỘT NGƯỜI ĐẶC BIỆT</span>
-          <h2>Gửi Thanh Tuyền,<br /><em>cô giáo Bình An thương.</em></h2>
-          <p>
-            Một chút dịu dàng dành cho Thanh Tuyền,<br />sau những giờ làm và
-            những buổi đứng lớp.
-          </p>
+          <span class="eyebrow">20 THÁNG 11 · MỘT MÓN QUÀ ĐỂ DÀNH</span>
+          <h2>Gửi cô giáo<br /><em>anh thương.</em></h2>
+          <p>Sau những giờ gieo chữ,<br />có một lời thương đợi em.</p>
           <a class="button primary" routerLink="/20-11"
-            >Mở món quà 20/11 <span aria-hidden="true">✧</span></a
+            >Mở món quà 20/11 <span aria-hidden="true">❀</span></a
           >
         </div>
-        <div class="teaser-flower" aria-hidden="true">✳<span>♡</span></div>
+        <span class="teaser-flower" aria-hidden="true">❀</span>
       </div>
     </section>
     <section id="khoanh-khac" class="page-width section-space">
       <div class="section-heading">
         <div>
-          <span class="eyebrow">CẤT LẠI NHỮNG ĐIỀU NHỎ BÉ</span>
-          <h2>Khoảnh khắc <em>của hai người.</em></h2>
+          <span class="eyebrow">CẤT LẠI NHỮNG ĐIỀU NHỎ XINH</span>
+          <h2>Có nhau <em>trong khung hình.</em></h2>
         </div>
         <p>
-          Không cần một dịp thật lớn.<br />Chỉ cần có nhau trong khung hình.
+          Một buổi hẹn, một cái nắm tay.<br />Những điều bình thường hóa thành
+          kỷ niệm.
         </p>
       </div>
       <app-gallery />
     </section>
-    <section id="thu" class="home-letter section-space">
-      <div class="page-width letter-layout">
-        <div>
-          <span class="eyebrow">CÓ NHỮNG ĐIỀU MUỐN NÓI</span>
-          <h2>Một lá thư,<br /><em>nhiều hơn vài dòng.</em></h2>
+    <section id="thu" class="letters-section section-space">
+      <div class="page-width">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">NÉT CHỮ CỦA ANH, NHỮNG NGÀY CÓ EM</span>
+            <h2>Giấy có thể cũ.<br /><em>Lời thương thì còn.</em></h2>
+          </div>
           <p>
-            Có những lời, Bình An muốn viết lại.<br />Để Thanh Tuyền có thể đọc
-            bất cứ khi nào.
+            Những lá thư thật, anh đã viết cho em.<br />Chạm vào ảnh để đọc lại
+            nét chữ ngày ấy.
           </p>
         </div>
-        <app-letter
-          [title]="story.homeLetter.title"
-          [paragraphs]="story.homeLetter.paragraphs"
-        />
+        <div class="letters-grid">
+          @for (letter of story.letters; track letter.source) {
+            <article class="letter-card">
+              <app-photo
+                [id]="letter.source"
+                sizes="(max-width:600px) 85vw, 28vw"
+              />
+              <div class="letter-card-copy">
+                <time>{{ letter.date }}</time>
+                <h3>{{ letter.title }}</h3>
+                <p>{{ letter.excerpt }}</p>
+                <app-letter
+                  [title]="letter.title"
+                  [paragraphs]="letter.paragraphs"
+                  [source]="letter.source"
+                  [compact]="true"
+                />
+              </div>
+            </article>
+          }
+        </div>
       </div>
     </section>
     <section class="closing page-width">
-      <span aria-hidden="true">✧</span>
-      <h2>Những trang đẹp nhất,<br /><em>mình cùng viết tiếp nhé.</em></h2>
-      <p>Bình An & Thanh Tuyền</p>
+      <span aria-hidden="true">♡</span>
+      <h2>
+        Anh không giữ được thời gian.<br /><em
+          >Nên anh giữ những ngày có em.</em
+        >
+      </h2>
+      <p>Và những trang tiếp theo, mình cùng viết nhé.</p>
     </section>
   `,
 })
 export class HomeComponent {
-  private route = inject(ActivatedRoute);
   protected story = story;
-  protected days = daysTogether();
+  private route = inject(ActivatedRoute);
   constructor() {
     afterNextRender(() => {
       const section = this.route.snapshot.data["section"] as string | undefined;
-      if (section) {
-        requestAnimationFrame(() => {
+      if (section)
+        requestAnimationFrame(() =>
           document
             .getElementById(section)
-            ?.scrollIntoView({ behavior: "instant" });
-        });
-      }
+            ?.scrollIntoView({ behavior: "instant" }),
+        );
     });
   }
 }

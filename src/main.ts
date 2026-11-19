@@ -10,7 +10,7 @@ bootstrapApplication(AppComponent, {
           path: "",
           loadComponent: () =>
             import("./app/home.component").then((m) => m.HomeComponent),
-          title: "Bình An & Thanh Tuyền - Những ngày có nhau",
+          title: "Anh & Em - Những ngày có nhau",
         },
         {
           path: "20-11",
@@ -18,7 +18,7 @@ bootstrapApplication(AppComponent, {
             import("./app/teachers-day.component").then(
               (m) => m.TeachersDayComponent,
             ),
-          title: "20/11 - Gửi Thanh Tuyền, từ Bình An",
+          title: "20/11 - Gửi cô giáo anh thương",
         },
         ...[
           { path: "chuyen-minh", section: "chuyen-minh", title: "Chuyện mình" },
@@ -29,7 +29,7 @@ bootstrapApplication(AppComponent, {
           data: { section },
           loadComponent: () =>
             import("./app/home.component").then((m) => m.HomeComponent),
-          title: `${title} - Bình An & Thanh Tuyền`,
+          title: `${title} - Anh & Em`,
         })),
         { path: "**", redirectTo: "" },
       ],

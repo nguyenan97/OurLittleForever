@@ -9,7 +9,7 @@ import {
 
 @Component({
   selector: "app-galaxy",
-  host: { class: "galaxy-scene", "[class.paused]": "paused()" },
+  host: { class: "galaxy-scene" },
   template: `
     <div #canvasHost class="canvas-host" aria-hidden="true"></div>
     <div class="galaxy-haze" aria-hidden="true"></div>
@@ -21,34 +21,19 @@ import {
     <span class="galaxy-star star-one" aria-hidden="true">✧</span
     ><span class="galaxy-star star-two" aria-hidden="true">✦</span>
     <ng-content />
-    <button
-      class="motion-toggle"
-      (click)="toggle()"
-      [attr.aria-pressed]="paused()"
-      [attr.aria-label]="paused() ? 'Bật chuyển động' : 'Dừng chuyển động'"
-    >
-      {{ paused() ? "Bật chuyển động" : "Dừng chuyển động" }}
-    </button>
   `,
 })
 export class GalaxyComponent implements OnDestroy {
   @ViewChild("canvasHost", { static: true })
   canvasHost!: ElementRef<HTMLDivElement>;
   protected ready = signal(false);
-  protected paused = signal(false);
   private destroyed = false;
   private cleanup?: () => void;
-  private drawOnce?: () => void;
   constructor() {
     afterNextRender(() => void this.initialize());
   }
-  toggle() {
-    this.paused.update((x) => !x);
-    this.drawOnce?.();
-  }
   private async initialize() {
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
-    this.paused.set(motion.matches);
     let renderer: import("three").WebGLRenderer | undefined;
     try {
       const THREE = await import("three");
@@ -123,22 +108,20 @@ export class GalaxyComponent implements OnDestroy {
         if (this.destroyed) return;
         const delta = lastTime ? Math.min((time - lastTime) / 1000, 0.05) : 0;
         lastTime = time;
-        if (!this.paused() && visible && !document.hidden) {
-          elapsed += delta;
+        if (visible && !document.hidden) {
+          elapsed += delta * (motion.matches ? 0.35 : 1);
           stars.rotation.y = elapsed * 0.016;
           heart.rotation.y = Math.sin(elapsed * 0.3) * 0.2;
           heart.rotation.z = Math.sin(elapsed * 0.2) * 0.035;
           heart.scale.setScalar(1 + Math.sin(elapsed * 1.2) * 0.025);
         }
         renderer!.render(scene, camera);
-        if (!this.paused() && visible && !document.hidden)
-          frame = requestAnimationFrame(render);
+        if (visible && !document.hidden) frame = requestAnimationFrame(render);
       };
       const wake = () => {
         lastTime = 0;
         if (!frame) frame = requestAnimationFrame(render);
       };
-      this.drawOnce = wake;
       const resize = new ResizeObserver(() => {
         const { width, height } = host.getBoundingClientRect();
         camera.aspect = width / Math.max(height, 1);
@@ -162,18 +145,12 @@ export class GalaxyComponent implements OnDestroy {
           frame = 0;
         } else wake();
       };
-      const preference = () => {
-        this.paused.set(motion.matches);
-        wake();
-      };
       document.addEventListener("visibilitychange", visibility);
-      motion.addEventListener("change", preference);
       this.cleanup = () => {
         cancelAnimationFrame(frame);
         resize.disconnect();
         intersection.disconnect();
         document.removeEventListener("visibilitychange", visibility);
-        motion.removeEventListener("change", preference);
         geometry.dispose();
         material.dispose();
         heartGeometry.dispose();

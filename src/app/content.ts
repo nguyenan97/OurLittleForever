@@ -1,63 +1,85 @@
 export const story = {
-  names: { from: "Bình An", to: "Thanh Tuyền" },
-  relationshipDate: "2026-11-14",
   milestones: [
     {
       date: "28.10.2026",
       iso: "2026-10-28",
-      title: "Ngày đầu quen nhau",
-      text: "Câu chuyện của Bình An và Thanh Tuyền bắt đầu từ đây.",
-      symbol: "✧",
+      title: "Một lần gặp, một người để nhớ.",
+      text: "Ngày mình gặp nhau, anh chưa biết từ đó, những ngày bình thường cũng sẽ có một người để mong.",
+      photo: "first-meeting",
+      note: "Chúng mình, từ một lời chào.",
     },
     {
       date: "31.10.2026",
       iso: "2026-10-31",
-      title: "Buổi hẹn đầu tiên",
-      text: "Buổi hẹn đầu tiên, tại nhà Thanh Tuyền. Một ngày để nhớ trong câu chuyện của hai người.",
-      symbol: "⌂",
+      title: "Món quà đầu, lời thương đầu.",
+      text: "Buổi hẹn đầu tiên ở nhà em. Anh gửi một món quà nhỏ, kèm một điều mong hơi lớn: còn được ở cạnh và thương em nhiều hơn nữa.",
+      photo: "first-letter",
+      note: "Anh đã chờ một lời đồng ý từ em.",
+    },
+    {
+      date: "07.11.2026",
+      iso: "2026-11-07",
+      title: "Một buổi hẹn chỉ có hai đứa.",
+      text: "Lại được tặng quà cho em, lại có thêm một lá thư. Giữa hoa, ánh đèn và những điều nho nhỏ, anh thích nhất là được ngồi cùng em.",
+      photo: "private-date",
+      note: "Thêm một trang thật dễ thương.",
     },
     {
       date: "14.11.2026",
       iso: "2026-11-14",
-      title: "Từ hôm ấy, là chúng mình",
-      text: "Bình An tỏ tình và trở thành bạn trai của Thanh Tuyền.",
-      symbol: "♡",
+      title: "Từ hôm ấy, là chúng mình.",
+      text: "Anh mang hoa, một chiếc lắc và những lời đã giữ trong lòng. Rồi anh có được một danh phận thật đặc biệt: người yêu của em.",
+      photo: "our-kiss",
+      note: "Một cái ôm. Một lời yêu. Một bắt đầu.",
     },
   ],
-  homeLetter: {
-    title: "Có Thanh Tuyền trong những ngày bình thường",
-    paragraphs: [
-      "Gửi Thanh Tuyền,",
-      "Bình An muốn giữ lại câu chuyện của hai người ở một nơi thật riêng: từ ngày đầu quen nhau, buổi hẹn đầu tiên tại nhà Thanh Tuyền, đến ngày chúng mình chính thức ở bên nhau.",
-      "Sau này, khi có thêm những tấm ảnh, những chuyến đi và những ngày đáng nhớ, góc nhỏ này sẽ lại có thêm một trang. Để mỗi lần nhìn lại, cả hai đều nhớ câu chuyện của mình đã bắt đầu thế nào.",
-      "Mong rằng sẽ có thật nhiều ngày bình thường được đi qua cùng Thanh Tuyền.",
-    ],
-  },
+  letters: [
+    {
+      date: "31.10.2026",
+      source: "first-letter",
+      title: "Chờ một lời đồng ý từ em",
+      excerpt: "Một món quà nhỏ, và một điều anh mong thật nhiều.",
+      paragraphs: [
+        "Gửi em,",
+        "Mong em thích món quà đầu tiên này. Anh còn muốn được tặng em nhiều điều nhỏ xinh hơn nữa, được ôm em nhiều hơn, và cùng em đi qua thật nhiều ngày vui.",
+        "Anh chờ một lời đồng ý từ em. Mong nhiều lắm.",
+      ],
+    },
+    {
+      date: "07.11.2026",
+      source: "second-letter",
+      title: "Lại được tặng quà cho em rồi nè!",
+      excerpt: "Lần này, không chỉ em thơm mà phòng em cũng thơm.",
+      paragraphs: [
+        "Dear Darling ♡",
+        "Lại được tặng quà cho em rồi nè!",
+        "Lần này không chỉ em thơm mà phòng em cũng thơm. Đôi tay của em cũng phải vừa thơm vừa mềm.",
+        "Để làm gì thì em biết rồi đó ^^",
+        "Mong em thích những món quà nhỏ của anh.",
+      ],
+    },
+    {
+      date: "14.11.2026",
+      source: "confession-letter",
+      title: "Cô gái anh thương",
+      excerpt: "Những điều thật đơn giản, mà làm anh hạnh phúc.",
+      paragraphs: [
+        "Gửi cô gái anh thương,",
+        "Càng hiểu em, anh càng thương sự tinh tế, chu đáo và những điều dễ mến nơi em. Anh thích được tâm sự mỗi tối, mong đến cuối tuần để gặp, để ôm em. Những điều thật đơn giản, mà làm anh hạnh phúc.",
+        "Cảm ơn em đã mang một chút nắng vào những ngày của anh. Bó hoa này thay lời thương; chiếc lắc này gửi một điều mong: anh được quan tâm, yêu thương và đồng hành cùng em thật lâu.",
+        "Mong mình có nhiều kỷ niệm đẹp, càng hiểu lại càng thương nhau hơn. Và anh mong có một danh phận thật đặc biệt bên em.",
+        "Thương em nhiều ♡",
+      ],
+    },
+  ],
   teachersLetter: {
-    title: "Gửi Thanh Tuyền, nhân ngày 20/11",
+    title: "Gửi cô giáo anh thương",
     paragraphs: [
-      "Thanh Tuyền thân mến,",
-      "Nhân ngày Nhà giáo Việt Nam 20/11, Bình An chúc Thanh Tuyền có một ngày thật vui và nhận được nhiều tình cảm từ những học trò của mình.",
-      "Ban ngày đi làm văn phòng, chiều tối lại dành thời gian cho những lớp tiếng Anh - Bình An trân trọng sự cố gắng của Thanh Tuyền. Mong những giờ dạy luôn mang đến niềm vui, và mỗi tiến bộ của học trò sẽ là một điều thật đáng tự hào.",
-      "Cũng mong Thanh Tuyền nhớ dành cho mình những khoảng nghỉ, ăn uống đủ bữa và chăm sóc bản thân. Sau một ngày bận rộn, mong vẫn còn một chút thời gian cho những điều Thanh Tuyền thích, và cho cả hai người nữa.",
-      "Cảm ơn Thanh Tuyền vì đã bước vào câu chuyện của Bình An. Chúc cô giáo của những lớp tiếng Anh một ngày 20/11 thật dịu dàng, thật nhiều nụ cười và thật nhiều yêu thương.",
+      "Em thương,",
+      "Chúc em một ngày 20/11 thật vui. Mong những điều em kiên nhẫn gieo trong mỗi buổi học sẽ lớn lên thành niềm tự hào nơi học trò.",
+      "Hết giờ làm, em còn dành buổi tối cho lớp học. Anh thương sự tận tâm ấy, và mong em cũng dành cho mình đủ thời gian nghỉ ngơi, đủ niềm vui để tiếp tục điều em yêu.",
+      "Hôm nay nhận hoa, nhận lời chúc, rồi nhớ nhận cả một cái ôm của anh nhé.",
+      "Thương em, hôm nay và cả những ngày chẳng có dịp gì.",
     ],
   },
 } as const;
-
-export function daysTogether(now = new Date()): number {
-  const vietnamDay = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Ho_Chi_Minh",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(now);
-  return Math.max(
-    0,
-    Math.round(
-      (Date.parse(vietnamDay + "T00:00:00Z") -
-        Date.parse(story.relationshipDate + "T00:00:00Z")) /
-        86400000,
-    ),
-  );
-}
