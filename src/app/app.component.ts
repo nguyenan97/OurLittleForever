@@ -1,9 +1,11 @@
-import { Component, HostListener, inject, signal } from "@angular/core";
+import { afterNextRender, Component, DestroyRef, inject, signal } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { PianoComponent } from "./piano.component";
+import { LoveMusicComponent } from "./love-music.component";
+import { MotionService } from "./motion.service";
 import { NavigationSkipped, Router, RouterLink, RouterOutlet, RouterLinkActive, Scroll } from "@angular/router";
 import { AmbientComponent } from "./ambient.component";
 import { LightboxComponent } from "./lightbox.component";
+import { CosmicBackdropComponent } from "./cosmic-backdrop.component";
 
 @Component({
   selector: "app-root",
@@ -13,9 +15,11 @@ import { LightboxComponent } from "./lightbox.component";
     RouterLinkActive,
     AmbientComponent,
     LightboxComponent,
-    PianoComponent,
+    LoveMusicComponent,
+    CosmicBackdropComponent,
   ],
   template: `
+    <app-cosmic-backdrop />
     <app-ambient />
     <button class="skip-link" (click)="skipToContent()">
       Đến nội dung chính
@@ -37,7 +41,7 @@ import { LightboxComponent } from "./lightbox.component";
     <main id="main" tabindex="-1"><router-outlet /></main>
     <app-lightbox />
     <div class="reading-progress" aria-hidden="true" [style.transform]="'scaleX(' + progress() + ')' "></div>
-    <div class="floating-tools"><app-piano /><button class="back-top" [class.visible]="progress() > 0.025" (click)="toTop()" aria-label="Về đầu trang">Lên đầu <span aria-hidden="true">⌃</span></button></div>
+    <div class="floating-tools"><app-love-music /><button class="back-top" [class.visible]="progress() > 0.025" (click)="toTop()" aria-label="Về đầu trang">Lên đầu <span aria-hidden="true">⌃</span></button></div>
     <nav class="mobile-chapters" aria-label="Đi nhanh giữa các trang"><a routerLink="/">Chuyện mình</a><a routerLink="/khoanh-khac">Ảnh</a><a routerLink="/loi-thuong">Thư</a><a routerLink="/20-11">20/11 ♡</a></nav>
     <footer class="site-footer">
       <a class="brand" routerLink="/" aria-label="Trang chủ"
@@ -49,19 +53,40 @@ import { LightboxComponent } from "./lightbox.component";
   `,
 })
 export class AppComponent {
+  private motion = inject(MotionService);
   private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
   protected progress = signal(0);
   constructor() {
+    afterNextRender(() => {
+      let frame = 0;
+      let distance = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+      const updateDistance = () => { distance = Math.max(0, document.documentElement.scrollHeight - innerHeight); };
+      const scroll = () => {
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+          frame = 0;
+          const progress = distance ? Math.min(1, Math.max(0, scrollY / distance)) : 0;
+          if (Math.abs(this.progress() - progress) > .001 || progress === 0 || progress === 1) this.progress.set(progress);
+        });
+      };
+      const resize = new ResizeObserver(updateDistance);
+      resize.observe(document.documentElement);
+      window.addEventListener("scroll", scroll, {passive:true});
+      window.addEventListener("resize", updateDistance, {passive:true});
+      this.destroyRef.onDestroy(() => {
+        cancelAnimationFrame(frame);
+        resize.disconnect();
+        window.removeEventListener("scroll", scroll);
+        window.removeEventListener("resize", updateDistance);
+      });
+    });
     this.router.events.pipe(takeUntilDestroyed()).subscribe(event => {
       if (event instanceof Scroll && !event.position) this.scrollToRoute("instant");
       if (event instanceof NavigationSkipped) this.scrollToRoute("smooth");
     });
   }
-  @HostListener("window:scroll") updateProgress() {
-    const distance = document.documentElement.scrollHeight - innerHeight;
-    this.progress.set(distance > 0 ? scrollY / distance : 0);
-  }
-  toTop() { window.scrollTo({ top: 0, behavior: "smooth" }); }
+  toTop() { window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion:reduce)").matches ? "instant" : "smooth" }); }
   private scrollToRoute(behavior: ScrollBehavior) {
     // Run after the router's own scrolling, once the routed view is rendered.
     requestAnimationFrame(() => {

@@ -7,6 +7,7 @@ import { MemoryOrbitComponent } from "./memory-orbit.component";
 import { GalaxyComponent } from "./galaxy.component";
 import { PhotoboothComponent } from "./photobooth.component";
 import { story } from "./content";
+import { ConstellationComponent } from "./constellation.component";
 @Component({
   selector: "app-home",
   imports: [
@@ -17,9 +18,13 @@ import { story } from "./content";
     MemoryOrbitComponent,
     GalaxyComponent,
     PhotoboothComponent,
+    ConstellationComponent,
   ],
   template: `
     <section class="love-hero">
+      <app-photo class="hero-photograph" id="portrait-window" [zoom]="false" [eager]="true" sizes="100vw" />
+      <div class="hero-photo-veil" aria-hidden="true"></div>
+      <div class="hero-celestial-ring" aria-hidden="true"><span>♡</span></div>
       <div class="hero-wash" aria-hidden="true"></div>
       <div class="hero-inner page-width">
         <div class="hero-copy">
@@ -65,6 +70,7 @@ import { story } from "./content";
         ><span aria-hidden="true">♡</span>
       </div>
     </section>
+    <app-constellation />
     <section class="opening-quote page-width">
       <span class="eyebrow">THƯƠNG NHAU TỪ NHỮNG ĐIỀU NHỎ NHẤT</span>
       <h2>

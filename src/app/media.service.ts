@@ -32,7 +32,7 @@ export class MediaService {
         if (!r.ok) throw new Error("Media unavailable");
         return r.json();
       })
-      .then((p) => this.photos.set(p))
+      .then((p: Photo[]) => this.photos.set(p.filter(photo => !['booth-strip', 'her-smile'].includes(photo.id))))
       .catch(() => {});
   }
   url(value: string) {

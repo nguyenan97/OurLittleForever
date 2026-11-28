@@ -5,6 +5,12 @@ import { Component, HostListener, OnDestroy, signal } from "@angular/core";
   template: `
     <div class="ambient-glow glow-one"></div>
     <div class="ambient-glow glow-two"></div>
+    @for (star of shootingStars; track $index) {
+      <i class="shooting-star" [style.--y]="star.y + '%'" [style.--delay]="star.delay + 's'"></i>
+    }
+    @for (light of fireflies; track $index) {
+      <i class="love-firefly" [style.left]="light.x + '%'" [style.top]="light.y + '%'" [style.--delay]="light.delay + 's'"></i>
+    }
     @for (heart of hearts; track $index) {
       <span class="floating-heart" [style.--x]="heart.x + '%'" [style.--delay]="heart.delay + 's'" [style.--duration]="heart.duration + 's'">{{ $index % 2 ? '♡' : '♥' }}</span>
     }
@@ -33,7 +39,10 @@ import { Component, HostListener, OnDestroy, signal } from "@angular/core";
   `,
 })
 export class AmbientComponent implements OnDestroy {
-  protected hearts = Array.from({ length: 9 }, (_, i) => ({ x: (i * 29 + 7) % 98, delay: -i * 3.1, duration: 20 + i % 6 }));
+  private compact = matchMedia("(max-width: 700px), (pointer: coarse)").matches;
+  protected shootingStars = [{ y: 14, delay: -3 }, { y: 55, delay: -11 }];
+  protected fireflies = Array.from({ length: this.compact ? 4 : 8 }, (_, i) => ({ x: (i * 31 + 12) % 96, y: (i * 19 + 15) % 90, delay: -i * 1.8 }));
+  protected hearts = Array.from({ length: this.compact ? 5 : 9 }, (_, i) => ({ x: (i * 29 + 7) % 98, delay: -i * 3.1, duration: 20 + i % 6 }));
   protected bursts = signal<{id:number;x:number;y:number;drift:number}[]>([]);
   private serial = 0;
   private timers = new Set<ReturnType<typeof setTimeout>>();
@@ -45,14 +54,14 @@ export class AmbientComponent implements OnDestroy {
     this.timers.add(timer);
   }
   ngOnDestroy() { this.timers.forEach(clearTimeout); }
-  protected petals = Array.from({ length: 18 }, (_, i) => ({
+  protected petals = Array.from({ length: this.compact ? 9 : 18 }, (_, i) => ({
     left: (i * 37) % 103,
     delay: -i * 1.7,
     duration: 15 + (i % 7),
     size: 7 + (i % 6),
     drift: 35 + (i % 5) * 18,
   }));
-  protected stars = Array.from({ length: 11 }, (_, i) => ({
+  protected stars = Array.from({ length: this.compact ? 6 : 11 }, (_, i) => ({
     left: (i * 23 + 5) % 99,
     top: (i * 31 + 9) % 96,
     delay: -i * 0.8,

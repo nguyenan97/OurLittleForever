@@ -78,6 +78,29 @@
 .playing .music-bars i:nth-child(2) { animation-delay:-.4s; }
 .playing .music-bars i:nth-child(3) { animation-delay:-.2s; }
 @keyframes piano-bars { to { transform:scaleY(.4); } }
+.love-music-player { position:absolute; right:0; bottom:calc(100% + 12px); width:min(340px,calc(100vw - 24px)); padding:12px; border:1px solid #d8b5b5; border-radius:16px; background:#fcf7f0; box-shadow:0 12px 40px #331d2930; }
+.love-music-heading { display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:.8rem; color:var(--wine); }
+.love-music-heading button { min-width:44px; min-height:44px; background:transparent; border:0; font-size:1.5rem; }
+.love-music-player iframe { display:block; width:100%; aspect-ratio:16/9; border:0; border-radius:8px; }
+.love-music-player p { font-size:.72rem; line-height:1.6; margin-top:10px; }
+.music-source { display:inline-flex; align-items:center; min-height:44px; font-size:.75rem; color:var(--wine); text-decoration:underline; text-underline-offset:3px; }
+.shooting-star { position:absolute; top:var(--y); left:-25%; width:100px; height:1px; opacity:0; background:linear-gradient(90deg,transparent,#e5bb85); transform:rotate(22deg); animation:love-shooting 17s var(--delay) linear infinite; }
+.love-firefly { position:absolute; width:4px; height:4px; border-radius:50%; background:#e7bc88; box-shadow:0 0 9px 2px #e7bc8855; opacity:0; animation:love-firefly 12s var(--delay) ease-in-out infinite; }
+@keyframes love-shooting { 0%,75% { opacity:0; transform:translate3d(0,0,0) rotate(22deg); } 78% { opacity:.65; } 90%,100% { opacity:0; transform:translate3d(140vw,35vh,0) rotate(22deg); } }
+@keyframes love-firefly { 0%,100% { opacity:.05; transform:translate3d(0,0,0) scale(.5); } 45% { opacity:.55; transform:translate3d(22px,-45px,0) scale(1); } 70% { opacity:.2; transform:translate3d(-12px,-70px,0) scale(.7); } }
+.motion-outside *, .motion-outside *::before, .motion-outside *::after,
+.motion-hidden *, .motion-hidden *::before, .motion-hidden *::after { animation-play-state:paused !important; }
+@media (max-width:700px), (pointer:coarse) {
+  .ambient-glow { filter:none; mix-blend-mode:normal; background:radial-gradient(circle,#f7cfa144,transparent 65%); }
+  .glow-two { background:radial-gradient(circle,#df9aab44,transparent 65%); }
+  .petal { will-change:auto; }
+  .love-music-player { max-height:calc(100dvh - 160px - env(safe-area-inset-bottom)); overflow:auto; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .shooting-star { animation-name:love-star-soft; animation-duration:25s; left:20%; width:25px; }
+  .love-firefly { animation-name:love-star-soft; animation-duration:22s; }
+  @keyframes love-star-soft { 0%,100% { opacity:0; } 50% { opacity:.25; } }
+}
 .back-top { opacity:0; visibility:hidden; transition:opacity .25s; }
 .back-top.visible { opacity:1; visibility:visible; }
 .back-top span { margin-left:4px; }

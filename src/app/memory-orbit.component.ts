@@ -27,7 +27,7 @@ export class MemoryOrbitComponent {
     "our-kiss",
     "first-meeting",
     "couple-close",
-    "her-smile",
+    "bouquet-evening",
     "private-date",
     "hands",
     "first-laughter",

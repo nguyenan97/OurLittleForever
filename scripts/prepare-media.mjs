@@ -22,16 +22,30 @@ if (!(await exists(config))) {
 sharp.concurrency(2);
 sharp.cache({ memory: 96, files: 20, items: 50 });
 const selected = JSON.parse(await readFile(config, "utf8"));
+const previous = JSON.parse(await readFile(path.join(target, "manifest.json"), "utf8").catch(() => "[]"));
 const manifest = [];
 let originalBytes = 0,
   outputBytes = 0;
 for (const item of selected) {
-  const bytes = await readFile(path.join(originals, item.filename));
+  const source = item.developed ? path.join(root, item.developed) : path.join(originals, item.filename);
+  if (!(await exists(source))) {
+    const preserved = previous.find(photo => photo.id === item.id);
+    if (!preserved) throw new Error(`Missing original: ${item.filename}`);
+    for (const variant of preserved.variants) {
+      for (const file of [variant.webp, variant.avif]) {
+        if (!(await exists(path.join(root, "public", file)))) throw new Error(`Missing preserved asset: ${file}`);
+      }
+    }
+    manifest.push({ ...preserved, caption: item.caption, date: item.date || "" });
+    console.warn(`Preserved existing export (original unavailable): ${item.id}`);
+    continue;
+  }
+  const bytes = await readFile(source);
   originalBytes += bytes.length;
   const key = createHash("sha256")
     .update(bytes)
-    .update("romantic-v3-natural")
-    .update(JSON.stringify({ crop: item.crop, tone: item.tone }))
+    .update("romantic-v4-edited")
+    .update(JSON.stringify({ crop: item.crop, tone: item.tone, edited: item.edited, category: item.category }))
     .digest("hex")
     .slice(0, 16);
   const meta = await sharp(bytes).metadata();
@@ -50,6 +64,7 @@ for (const item of selected) {
   const pipeline = () => {
     let photo = sharp(bytes).rotate();
     if (crop) photo = photo.extract(crop);
+    if (item.edited || item.category === "letter") return photo;
     return photo.modulate({
       brightness: item.tone?.brightness ?? (item.category === "portrait" ? 1.008 : 1.025),
       saturation: item.category === "letter" ? 1 : item.category === "portrait" ? 1.008 : 1.018,

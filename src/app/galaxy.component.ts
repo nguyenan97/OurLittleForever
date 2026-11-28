@@ -59,9 +59,10 @@ export class GalaxyComponent implements OnDestroy {
         antialias: false,
         powerPreference: "low-power",
       });
-      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.6));
+      const mobile = matchMedia("(max-width: 700px), (pointer: coarse)").matches;
+      renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.25 : 1.6));
       host.appendChild(renderer.domElement);
-      const count = innerWidth < 700 ? 900 : 2000;
+      const count = mobile ? 600 : 2000;
       const positions = new Float32Array(count * 3);
       for (let i = 0; i < count; i++) {
         positions[i * 3] = (Math.random() - 0.5) * 20;
@@ -83,9 +84,10 @@ export class GalaxyComponent implements OnDestroy {
       const stars = new THREE.Points(geometry, material);
       scene.add(stars);
       const heartPositions = [];
-      for (let i = 0; i < 2600; i++) {
+      const heartCount = mobile ? 1200 : 2600;
+      for (let i = 0; i < heartCount; i++) {
         const t = Math.random() * Math.PI * 2;
-        const shell = i < 1100 ? 0.98 + Math.random() * 0.04 : Math.sqrt(Math.random());
+        const shell = i < heartCount * 0.42 ? 0.98 + Math.random() * 0.04 : Math.sqrt(Math.random());
         const scale = 0.095 * shell;
         heartPositions.push(
           16 * Math.pow(Math.sin(t), 3) * scale,
@@ -177,7 +179,7 @@ export class GalaxyComponent implements OnDestroy {
       };
       const wake = () => {
         lastTime = 0;
-        if (!frame) frame = requestAnimationFrame(render);
+        if (!frame && visible && !document.hidden) frame = requestAnimationFrame(render);
       };
       const resize = new ResizeObserver(() => {
         const { width, height } = host.getBoundingClientRect();

@@ -8,6 +8,7 @@ const root = path.resolve(
   "../dist/our-little-forever/browser",
 );
 const base = "/OurLittleForever/";
+const port = Number(process.env.PORT || 4200);
 const types = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript",
@@ -65,6 +66,6 @@ http
       response.writeHead(404).end("Not found");
     }
   })
-  .listen(4200, "127.0.0.1", () =>
-    console.log("Pages preview: http://127.0.0.1:4200/OurLittleForever/"),
+  .listen(port, "127.0.0.1", () =>
+    console.log(`Pages preview: http://127.0.0.1:${port}/OurLittleForever/`),
   );

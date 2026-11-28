@@ -1,14 +1,11 @@
 import { afterNextRender, Component, ElementRef, inject, OnDestroy, signal, ViewChild } from "@angular/core";
-import { PhotoComponent } from "./photo.component";
 import { MediaService } from "./media.service";
 interface MemoryVideo { id: string; caption: string; src: string; poster: string; hasAudio: boolean; }
 @Component({
   selector: "app-photobooth",
-  imports: [PhotoComponent],
   template: `<div #stage class="photobooth page-width">
     <div class="photobooth-copy"><span class="eyebrow light">MÌNH, THẬT DỄ THƯƠNG</span><h3>Thêm một lần<br /><em>cười bên nhau.</em></h3><span class="booth-doodle" aria-hidden="true">♡ &nbsp; ✧ &nbsp; ♡</span></div>
     <div class="booth-scrapbook">
-      <div class="booth-strip"><app-photo id="booth-strip" sizes="(max-width:600px) 42vw, 220px" /></div>
       @for (video of videos(); track video.id) {
         <figure class="video-memory" [class.booth-video]="video.id === 'photobooth'" [class.meeting-video]="video.id !== 'photobooth'">
           <div class="video-window">
